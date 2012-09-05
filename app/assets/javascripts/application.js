@@ -38,9 +38,9 @@ $(function() {
             setTimeout(function() { runTest(++id) }, 100);
             if (id > 0 && (id % 10 == 0)) loadResults(true);
         } else {
-            setTimeout(function() { loadResults(false, false) }, 1000);
-            setTimeout(function() { loadResults(false, true) }, 5000);
-            setTimeout(function() { loadResults(true, true) }, 15000);
+            setTimeout(function() { loadResults(true, false) }, 1000);
+            setTimeout(function() { loadResults(true, true) }, 5000);
+            setTimeout(function() { loadResults(false, true) }, 15000);
         }
     }
     function loadResults(nofail, finishResults) {

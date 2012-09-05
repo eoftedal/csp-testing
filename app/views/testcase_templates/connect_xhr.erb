@@ -1,6 +1,6 @@
 <html>
 <head>
-<script src="/assets/jquery.js?body=1"></script>
+<%= javascript_include_tag "jquery" %>
 <script>
     $.getJSON('<%= @test.uri %>');
 </script>
