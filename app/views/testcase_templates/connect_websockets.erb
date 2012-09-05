@@ -2,7 +2,7 @@
 <head>
 <%= javascript_include_tag "test" %>
 <script>
-    $.getJSON('<%= @test.uri(request) %>');
+    var ws = new WebSocket('<%= @test.uri(request) %>', "protocolOne");
 </script>
 </head>
 <body>

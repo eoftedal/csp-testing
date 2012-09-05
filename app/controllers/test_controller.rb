@@ -1,5 +1,5 @@
 class TestController < ApplicationController
-  include TestHelper
+
   def pass
     set_result(params[:id], true)
     head 200

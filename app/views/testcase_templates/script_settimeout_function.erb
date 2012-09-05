@@ -2,7 +2,7 @@
 <head>
 <script>
 setTimeout(function() { 
-        document.location = '<%= @test.uri %>';
+        document.location = '<%= @test.uri(request) %>';
 }, 100);
 </script>
 </head>

@@ -2,7 +2,7 @@
 <head>
 <%= javascript_include_tag "test" %>
 <script>
-    $.getJSON('<%= @test.uri(request) %>');
+    var source = new EventSource('<%= @test.uri(request) %>');
 </script>
 </head>
 <body>

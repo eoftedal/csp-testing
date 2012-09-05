@@ -12,8 +12,8 @@ class ApplicationController < ActionController::Base
     end
 
     def replace_host(value)
-        host = request.port == 80 ? request.host : request.host_with_port
-        value.gsub("{host}", host)
+        port = (request.port == 80) ? "" : (":" + request.port.to_s)
+        value.gsub("{host}", request.host + port).gsub("{origin1}", APP_CONFIG["origin1"] + port).gsub("{origin2}", APP_CONFIG["origin2"] + port)
     end
 
 end

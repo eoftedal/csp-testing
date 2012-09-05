@@ -1,7 +1,7 @@
 <html>
 <head>
 <script>
-    var f = new Function("document.location = '<%= @test.uri %>'");
+    var f = new Function("document.location = '<%= @test.uri(request) %>'");
     f();
 </script>
 </head>

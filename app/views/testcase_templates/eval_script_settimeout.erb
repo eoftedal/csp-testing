@@ -1,7 +1,7 @@
 <html>
 <head>
 <script>
-    setTimeout("document.location = '<%= @test.uri %>'", 1);
+    setTimeout("document.location = '<%= @test.uri(request) %>'", 1);
 </script>
 </head>
 <body>

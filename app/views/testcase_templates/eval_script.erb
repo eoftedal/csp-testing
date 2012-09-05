@@ -1,7 +1,7 @@
 <html>
 <head>
 <script>
-    eval("document.location = '<%= @test.uri %>'");
+    eval("document.location = '<%= @test.uri(request) %>'");
 </script>
 </head>
 <body>

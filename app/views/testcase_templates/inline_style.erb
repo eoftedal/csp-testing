@@ -1,7 +1,7 @@
 <html>
 <head>
 <style>
-    body { background: url('<%= @test.uri %>'); }
+    body { background: url('<%= @test.uri(request) %>'); }
 </style>
 </head>
 <body>

@@ -2,7 +2,7 @@
 <head>
 </head>
 <body>
-    <object data="<%= @test.uri %>" type="application/x-shockwave-flash">
-    </object>
+    <<%= @test.options[:tag] %> <%= @test.options[:attr] %>="<%= @test.uri(request) %>"<%= raw @test.options[:extra] %>>
+    </<%= @test.options[:tag] %>>
 </body>
 </html>

@@ -1,7 +1,7 @@
 <html>
 <head>
 <script>
-    document.location = '<%= @test.uri %>';
+    document.location = '<%= @test.uri(request) %>';
 </script>
 </head>
 <body>

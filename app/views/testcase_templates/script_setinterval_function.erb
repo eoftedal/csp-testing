@@ -3,7 +3,7 @@
 <script>
 var i = setInterval(function() { 
         clearInterval(i); 
-        document.location = '<%= @test.uri %>';
+        document.location = '<%= @test.uri(request) %>';
     }, 100);
 </script>
 </head>

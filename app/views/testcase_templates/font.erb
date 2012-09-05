@@ -4,7 +4,7 @@
 @font-face
 {
     font-family: myFirstFont;
-    src: url('<%= @test.uri %>');
+    src: url('<%= @test.uri(request) %>');
 }
 body {
     font-family: myFirstFont;

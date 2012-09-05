@@ -1,0 +1,11 @@
+development:
+  origin1: localhost
+  origin2: 127.0.0.1
+
+test:
+  origin1: localhost
+  origin2: 127.0.0.1
+
+production:
+  origin1: csptesting.herokuapp.com
+  origin2: csptesting.insecurelabs.org

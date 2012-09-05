@@ -1,7 +1,7 @@
 <html>
 <head>
 <script>
-    var i = setInterval("clearInterval(i); document.location = '<%= @test.uri %>'", 100);
+    var i = setInterval("clearInterval(i); document.location = '<%= @test.uri(request) %>'", 100);
 </script>
 </head>
 <body>
