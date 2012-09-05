@@ -17,11 +17,13 @@ class TestCase
         "/test/" + (expect ? "pass" : "fail") + "/" + id.to_s + "?_=" + Time.new().to_f().to_s 
     end
 
-    def self.all 
+    def self.all
+        self.checkload()
         @@testcases.values
     end
 
     def self.get_testcase(id)
+        self.checkload()
         @@testcases[id.to_s]
     end
 
@@ -29,6 +31,13 @@ class TestCase
         @id = @@testcase_id
         @@testcase_id = @@testcase_id + 1
         @@testcases[@id.to_s] = TestCase.new(@id, expect, title, header, template)
+    end
+
+    def self.checkload() 
+        @@testcases = @@testcases || {}
+        if (@@testcases.length == 0)
+            self.load()
+        end
     end
 
     def self.load() 
