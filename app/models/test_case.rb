@@ -17,9 +17,15 @@ class TestCase
     def uri (request)
         host = ""
         if (options[:include_host]) 
-            host = (options[:protocol] || "http") + "://" + (request.port == 80 ? request.host : request.host_with_port)
+            host = (options[:protocol] || "http") + "://" + request.host + port(request) 
+        elsif (options[:redirect])
+            host = "http://" + (request.host == APP_CONFIG["origin1"] ? APP_CONFIG["origin2"] : APP_CONFIG["origin1"]) + port(request) 
         end
         host + (options[:redirect] ? "/redirect" : "/test") + (expect ? "/pass" : "/fail") + "/" + id.to_s + "?_=" + Time.new().to_f().to_s
+    end
+
+    def port(request)
+        (request.port == 80 ? "" : (":" + request.port.to_s))
     end
 
     def self.all
@@ -75,7 +81,8 @@ class TestCase
         self.create_testcases("audio",      "media-src",  "media.erb",        "", {:tag => "audio"})
         self.create_testcases("video",      "media-src",  "media.erb",        "", {:tag => "video"})
         self.create_testcases("xhr",         "connect-src", "connect_xhr.erb",            ";script-src 'self' 'unsafe-inline'")
-        self.create_testcases("EventSource", "connect-src", "connect_eventsource.erb",    ";script-src 'self' 'unsafe-inline'")
+        self.create_testcase_list_standard("EventSource", "connect-src", "'self'", "connect_eventsource.erb",    ";script-src 'self' 'unsafe-inline'")
+        self.create_testcase_list_standard("EventSource", "connect-src", "{host}", "connect_eventsource.erb",    ";script-src 'self' 'unsafe-inline'")
         self.create_testcase_list_standard("WebSockets",  "connect-src", "ws://{host}" , "connect_websockets.erb",     ";script-src 'self' 'unsafe-inline'", {:protocol => "ws", :include_host => true})
     end
 
@@ -86,7 +93,7 @@ class TestCase
 
     def self.create_testcase_list(type, directive, value, template, additional, options = {})
         self.create_testcase_list_standard(type, directive, value, template, additional, options)
-        self.testcase(false, "Load " + type + " from " + directive + " with redirect from allowed to disallowed", directive + " {host}" + additional, template, {:redirect => true}.merge(options))
+        self.testcase(false, "Load " + type + " from " + directive + " with redirect from allowed to disallowed", directive + " {other_host}" + additional, template, {:redirect => true}.merge(options))
         self.testcase(true,  "Load " + type + " from " + directive + " with redirect from allowed to allowed", directive + " {origin1} {origin2}" + additional, template, {:redirect => true}.merge(options))
 
     end
