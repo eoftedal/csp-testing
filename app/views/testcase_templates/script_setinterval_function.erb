@@ -1,0 +1,13 @@
+<html>
+<head>
+<script>
+var i = setInterval(function() { 
+        clearInterval(i); 
+        document.location = '<%= @test.uri %>';
+    }, 100);
+</script>
+</head>
+<body>
+
+</body>
+</html>

@@ -1,0 +1,74 @@
+// Place all the styles related to the home controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+@mixin linear-gradient($pos, $G1, $G2: false,
+                       $G3: false, $G4: false,
+                       $G5: false, $G6: false,
+                       $G7: false, $G8: false,
+                       $G9: false, $G10: false,
+                       $deprecated-pos1: left top,
+                       $deprecated-pos2: left bottom,
+                       $fallback: false) {
+  // Detect what type of value exists in $pos
+  $pos-type: type-of(nth($pos, 1));
+
+  // If $pos is missing from mixin, reassign vars and add default position
+  @if ($pos-type == color) or (nth($pos, 1) == "transparent")  {
+    $G10: $G9; $G9: $G8; $G8: $G7; $G7: $G6; $G6: $G5;
+     $G5: $G4; $G4: $G3; $G3: $G2; $G2: $G1; $G1: $pos;
+    $pos: top; // Default position
+  }
+
+  $full: compact($G1, $G2, $G3);
+
+  // Set $G1 as the default fallback color
+  $fallback-color: nth($G1, 1);
+
+  // If $fallback is a color use that color as the fallback color
+  @if (type-of($fallback) == color) or ($fallback == "transparent") {
+    $fallback-color: $fallback;
+  }
+
+  background: $fallback-color;
+  background:  -webkit-linear-gradient($pos, $G1, $G2); // Safari 5.1+, Chrome
+  background:     -moz-linear-gradient($pos, $G1, $G2);
+  background:      -ms-linear-gradient($pos, $G1, $G2);
+  background:       -o-linear-gradient($pos, $G1, $G2);
+}
+
+
+
+#runner {
+    font-weight: bold;
+    font-size: 140%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.running {
+    background: url('/assets/ajax-loader.gif') no-repeat center left;
+    padding-left: 20px;
+}
+
+.results {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #fff;
+    border-radius: 5px;
+
+    th {
+        text-align: left;
+    }
+    tr td, tr th {
+        padding: 3px 5px 3px 5px;
+    }
+
+    .success {
+        @include linear-gradient(rgb(180, 255, 180), rgb(150, 255, 150));
+    }
+    .fail {
+        @include linear-gradient(rgb(255, 180, 180), rgb(255, 150, 150));
+    }
+}

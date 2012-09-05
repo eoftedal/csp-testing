@@ -1,0 +1,19 @@
+<% content_for :home_active, "active" %>
+<h1>CSP testing</h1>
+
+<script>
+var testcases = <%= raw @testcase_json %>
+</script>
+
+<p><a id="runtests" class="btn btn-primary btn-large">Run tests</a></p>
+
+<p id="runner" class="running" style="display:none">Running...</p>
+
+<table class="results">
+    <tr>
+        <th>Id</th>
+        <th>Title</th>
+    </tr>
+</table>
+
+<div class="iframes" style="display: none"></div>
