@@ -8,17 +8,11 @@ module ActionDispatch
         def get_session(env, sid)
           sid ||= SecureRandom.hex(16)
           session = GLOBAL_HASH_TABLE[sid] || { }
-          if (session[:created] == nil || session[:created] < (Time.now() - 30*60)) 
-            sid = SecureRandom.hex(16)
-          end
           session = Rack::Session::Abstract::SessionHash.new(self, env).merge(session)
           [sid, session]
         end
 
         def set_session(env, sid, session_data, cookie_settings)
-          if (session_data[:created] == nil || session_data[:created] < (Time.now() - 30*60)) 
-            session_data = { :created => Time.now() }
-          end
           GLOBAL_HASH_TABLE[sid] = session_data
           return sid
         end
