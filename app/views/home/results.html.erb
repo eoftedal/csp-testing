@@ -1,0 +1,5 @@
+<ul>
+<% @results.each do |result| %>
+    <li><b><%= result.success %>/<%= result.total %></b> - <%= result.useragent %></li>
+<% end %>
+</ul>

@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  useragent: MyString
+  results: MyString
+  total: 1
+  success: 1
+
+two:
+  useragent: MyString
+  results: MyString
+  total: 1
+  success: 1

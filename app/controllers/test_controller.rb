@@ -25,6 +25,7 @@ class TestController < ApplicationController
 
   def results
     @results = results_table
+    save_results
     respond_to do |format|
         format.json { render :json => @results }
     end

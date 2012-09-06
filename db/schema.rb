@@ -10,7 +10,16 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120904203141) do
+ActiveRecord::Schema.define(:version => 20120906194114) do
+
+  create_table "results", :force => true do |t|
+    t.string   "useragent"
+    t.string   "results"
+    t.integer  "total"
+    t.integer  "success"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "sessions", :force => true do |t|
     t.string   "session_id", :null => false
