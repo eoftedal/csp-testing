@@ -75,7 +75,7 @@ $(function() {
             version = /Safari\/([^ ]+)/.exec(ua)[1];
         } else if (ua.indexOf("MSIE") >= 0) {
             li.addClass("ie");
-            version = /MSIE \/([^;]+)/.exec(ua)[1];
+            version = /MSIE ([^;]+)/.exec(ua)[1];
         } else if (ua.indexOf("Opera") >= 0) {
             li.addClass("opera");
             version = /Opera\/([^ ]+)/.exec(ua)[1];
