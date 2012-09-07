@@ -78,19 +78,21 @@
   margin: 0;
   padding:0;
 
-  li span {
-
-  }
-  li b {
-    left: 150px;
-    position: absolute;
-
-  }
-
   li {
     position: relative;
     margin: 0;
     padding: 0;
+    clear: both;
+  }
+
+  li span {
+    position: absolute;
+    left: 85px;
+  }
+
+  li b {
+    xleft: 0px;
+    xposition: absolute;
   }
 
   li a.icon {
@@ -100,8 +102,9 @@
     background-position: 20px;
     width: 20px;
     height: 20px;
-    float: left;
+    left: 60px;
     margin-right: 5px;
+    position: absolute;
   }
 
   .chrome a.icon {  
