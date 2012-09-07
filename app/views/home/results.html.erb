@@ -1,5 +1,5 @@
-<ul>
+<ul class="browserResults">
 <% @results.each do |result| %>
-    <li><b><%= result.success %>/<%= result.total %></b> - <%= result.useragent %></li>
+    <li data-useragent="<%= result.useragent %>"><a class="icon"></a><b><%= result.success %>/<%= result.total %></b></li>
 <% end %>
 </ul>

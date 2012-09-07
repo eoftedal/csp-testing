@@ -59,4 +59,31 @@ $(function() {
             }
         });
     }
+
+    $(".browserResults li").each(function(i, elm) {
+        var li = $(elm);
+        var ua = li.attr("data-useragent");
+        var version = "";
+        if (ua.indexOf("Chrome") >= 0) {
+            li.addClass("chrome");
+            version = /Chrome\/([^ ]+)/.exec(ua)[1];
+        } else if (ua.indexOf("Firefox") >= 0) {
+            li.addClass("firefox");
+            version = /Firefox\/([^ ]+)/.exec(ua)[1];
+        } else if (ua.indexOf("Safari") >= 0) {
+            li.addClass("safari");
+            version = /Safari\/([^ ]+)/.exec(ua)[1];
+        } else if (ua.indexOf("MSIE") >= 0) {
+            li.addClass("ie");
+            version = /MSIE \/([^;]+)/.exec(ua)[1];
+        } else if (ua.indexOf("Opera") >= 0) {
+            li.addClass("opera");
+            version = /Opera\/([^ ]+)/.exec(ua)[1];
+        } else {
+            version = ua;
+        }
+        $("<span>").text(version).appendTo(li);
+
+    });
+
 });

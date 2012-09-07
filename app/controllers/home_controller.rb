@@ -4,7 +4,7 @@ class HomeController < ApplicationController
     end
 
     def results
-        @results = Result.find(:all, :order => "id desc", :limit => 50).reverse
+        @results = Result.find(:all, :order => "id desc", :limit => 50)
     end
 
     def about
