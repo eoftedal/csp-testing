@@ -2,7 +2,17 @@
 <head>
 <%= javascript_include_tag "test" %>
 <script>
-    $.getJSON('<%= @test.uri(request) %>');
+$.ajax({
+    type: "GET",
+    uri: '<%= @test.uri(request) %>',
+    dataType: 'json',
+    xhrFields: {
+       withCredentials: true
+    },
+    crossDomain: true
+});
+
+
 </script>
 </head>
 <body>
