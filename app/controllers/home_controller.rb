@@ -4,7 +4,8 @@ class HomeController < ApplicationController
     end
 
     def results
-        @results = Result.find(:all, :order => "id desc", :limit => 50)
+        # @results = Result.find(:all, :order => "id desc", :limit => 100)
+        @results = Result.where("total IS NOT NULL").order(:id).limit(100);
     end
 
     def about
