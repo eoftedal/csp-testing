@@ -1,5 +1,5 @@
 <ul class="browserResults">
 <% @results.each do |result| %>
-    <li data-useragent="<%= result.useragent %>"><a class="icon"></a><b><%= result.success %>/<%= result.total %></b></li>
+    <li data-useragent="<%= result.useragent %>" data-created-at="<%= result.updated_at %>"><a class="icon"></a><b><%= result.success %>/<%= result.total %></b></li>
 <% end %>
 </ul>
