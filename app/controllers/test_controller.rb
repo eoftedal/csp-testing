@@ -14,9 +14,11 @@ class TestController < ApplicationController
     @test = TestCase.get_testcase(params[:id])
     if (@test)
         set_result(@test.id, !@test.expect)
-        
-        response.headers["X-WebKit-CSP"] = replace_host(@test.header)
-        response.headers["X-Content-Security-Policy"] = replace_host(@test.header)
+        if (!session[:disable_old_headers])
+          response.headers["X-WebKit-CSP"] = replace_host(@test.header)
+          response.headers["X-Content-Security-Policy"] = replace_host(@test.header)
+        end 
+        response.headers["Content-Security-Policy"] = replace_host(@test.header)
         render :file => "app/views/testcase_templates/" + @test.template, :layout => false
     else 
         head 404

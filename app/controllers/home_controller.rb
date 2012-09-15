@@ -1,5 +1,8 @@
 class HomeController < ApplicationController
     def index
+        if (params[:disable_old_headers]) 
+            session[:disable_old_headers] = params[:disable_old_headers] == "true"
+        end
         @testcase_json = replace_host(TestCase.all.sort{|x,y| x.id <=> y.id}.to_json)
     end
 
