@@ -1,8 +1,9 @@
 <% content_for :home_active, "active" %>
-<h1>Content Security Policy</h1>
+<h1>Content Security Policy <%= session[:version] %></h1>
 <p>
     This test checks your browser support for the Content Security Policy (CSP).
 </p>
+
 <script>
 var testcases = <%= raw @testcase_json %>
 </script>
@@ -11,11 +12,13 @@ var testcases = <%= raw @testcase_json %>
 
 <p id="runner" class="running" style="display:none">Running...</p>
 
-<table class="results">
+<table class="results" style="display:none">
     <tr>
         <th>Id</th>
         <th>Title</th>
     </tr>
 </table>
 
-<div class="iframes" style="display: none"></div>
+<div class="iframes" style="display: none">
+<iframe src="http://<%= @other_host %>/home/establish?session_id=<%= @session_id %>"></iframe>
+</div>

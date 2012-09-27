@@ -2,8 +2,10 @@ Csptesting::Application.routes.draw do
   
 
   get "home/index"
+  get "home/1.1-draft" => "home#draft_1_1"
   get "home/about"
   get "home/results"
+  get "home/establish"
 
   match "test/pass/:id" => "test#pass"
 

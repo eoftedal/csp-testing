@@ -1,0 +1,13 @@
+<html>
+<head>
+<body>
+
+<form id="form" method="GET" action="<%= @test.uri(request) %>">
+</form>
+<script>
+setTimeout(function() {
+        document.getElementById("form").submit();
+  }, 100);
+</script>
+</body>
+</html>

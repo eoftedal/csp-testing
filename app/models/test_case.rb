@@ -1,23 +1,26 @@
 class TestCase
 
-    attr_accessor :id, :expect, :title, :header, :template, :options
+    attr_accessor :id, :expect, :title, :header, :template, :options, :version
 
     @@testcases = {}
     @@testcase_id = 0
 
-    def initialize(id, expect, title, header, template, options)
+    def initialize(id, expect, title, header, template, options, version = 1.0)
         @id = id
         @expect = expect
         @title = title
         @header = header
         @template = template
         @options = options
+        @version = version
     end
 
     def uri (request)
         host = ""
         if (options[:include_host]) 
             host = (options[:protocol] || "http") + "://" + request.host + port(request) 
+        elsif (options[:include_other_host]) 
+            host = (options[:protocol] || "http") + "://" + (request.host == APP_CONFIG["origin1"] ? APP_CONFIG["origin2"] : APP_CONFIG["origin1"]) + port(request) 
         elsif (options[:redirect])
             host = "http://" + (request.host == APP_CONFIG["origin1"] ? APP_CONFIG["origin2"] : APP_CONFIG["origin1"]) + port(request) 
         end
@@ -26,6 +29,10 @@ class TestCase
 
     def port(request)
         (request.port == 80 ? "" : (":" + request.port.to_s))
+    end
+
+    def self.version(version)
+        self.all.find_all{ |t| t.version <= version }
     end
 
     def self.all
@@ -38,10 +45,10 @@ class TestCase
         @@testcases[id.to_s]
     end
 
-    def self.testcase(expect, title, header, template, options = {})
+    def self.testcase(expect, title, header, template, options = {}, version = 1.0)
         @id = @@testcase_id
         @@testcase_id = @@testcase_id + 1
-        @@testcases[@id.to_s] = TestCase.new(@id, expect, title, header, template, options)
+        @@testcases[@id.to_s] = TestCase.new(@id, expect, title, header, template, options, version)
     end
 
     def self.checkload() 
@@ -52,6 +59,10 @@ class TestCase
     end
 
     def self.load() 
+        self.load_1_0()
+        self.load_1_1_draft()
+    end
+    def self.load_1_0()
         self.create_testcases("stylesheet", "style-src",  "linked_style.erb", "")
         self.testcase(true,  "Use inline styles",           "default-src 'self'; style-src 'self' 'unsafe-inline'", "inline_style.erb")
         self.testcase(false, "Use inline styles violation", "style-src 'self'",           "inline_style.erb")
@@ -86,21 +97,46 @@ class TestCase
         self.create_testcase_list_standard("WebSockets",  "connect-src", "ws://{host}" , "connect_websockets.erb",     ";script-src 'self' 'unsafe-inline'", {:protocol => "ws", :include_host => true})
     end
 
-    def self.create_testcases(type, directive, template, additional, options = {})
-        self.create_testcase_list(type, directive, "'self'", template, additional, options)
-        self.create_testcase_list(type, directive, "{host}", template, additional, options)
+    def self.load_1_1_draft() 
+        self.testcase(true,  "Form-action 'self'",       "form-action 'self'; script-src 'unsafe-inline'",       "form_action.erb", {}, 1.1)
+        self.testcase(true,  "Form-action {host}",       "form-action {host}; script-src 'unsafe-inline'",       "form_action.erb", {}, 1.1)
+        self.testcase(false, "Form-action 'none'",       "form-action 'none'; script-src 'unsafe-inline'",       "form_action.erb", {}, 1.1)
+        self.testcase(true,  "Form-action {other_host}", "form-action {other_host}; script-src 'unsafe-inline'", "form_action.erb", { :include_other_host => true }, 1.1)
+        self.testcase(false, "Form-action {other_host} but post to self", "form-action {other_host}; script-src 'unsafe-inline'", "form_action.erb", {}, 1.1)
+        self.testcase(false, "Form-action with redirect from allowed to disallowed", "form-action {other_host}; script-src 'unsafe-inline'",     "form_action.erb", {:redirect => true}, 1.1)
+        self.testcase(true,  "Form-action with redirect from allowed to allowed", "form-action {origin1} {origin2}; script-src 'unsafe-inline'", "form_action.erb", {:redirect => true}, 1.1)
+
+        self.testcase(true,  "Script-nonce correct",    "script-nonce correctnonce; script-src 'unsafe-inline' ",    "script_nonce.erb", {:nonce_attribute => "nonce=\"correctnonce\""},     1.1)
+
+        self.testcase(false, "Script-nonce wrong",      "script-nonce somenonce; script-src 'unsafe-inline' ",       "script_nonce.erb", {:nonce_attribute => "nonce=\"wrongnonce\""},       1.1)
+        self.testcase(false, "Script-nonce missing",    "script-nonce somenonce; script-src 'unsafe-inline' ",       "script_nonce.erb", {:nonce_attribute => ""},       1.1)
+        self.testcase(false, "Script-nonce set and javascript in event handler",    "script-nonce somenonce; script-src 'unsafe-inline' ",  "script_nonce_eventhandler.erb", {},  1.1)
+
+        self.testcase(false, "Script-nonce empty in header",                   "script-nonce ; script-src 'unsafe-inline' ",      "script_nonce.erb", {:nonce_attribute => ""},       1.1)
+        self.testcase(false, "Script-nonce empty in header but not on tag",    "script-nonce ; script-src 'unsafe-inline' ",      "script_nonce.erb", {:nonce_attribute => "nonce=\"somenonce\""},       1.1)
+        self.testcase(false, "Script-nonce set and javascript in event handler",    "script-nonce ; script-src 'unsafe-inline' ", "script_nonce_eventhandler.erb", {},  1.1)
+
+        self.testcase(false, "Script-nonce invalid", "script-nonce nonce nonce; script-src 'unsafe-inline' ", "script_nonce.erb", {:nonce_attribute => "nonce=\"nonce nonce\""},       1.1)
+        self.testcase(false, "Script-nonce invalid in header and missing on tag",  "script-nonce nonce nonce; script-src 'unsafe-inline' ", "script_nonce.erb", {:nonce_attribute => ""},       1.1)
+        self.testcase(false, "Script-nonce invalid and javascript in event handler",    "script-nonce nonce nonce; script-src 'unsafe-inline' ",  "script_nonce_eventhandler.erb", {},  1.1)
+
     end
 
-    def self.create_testcase_list(type, directive, value, template, additional, options = {})
-        self.create_testcase_list_standard(type, directive, value, template, additional, options)
-        self.testcase(false, "Load " + type + " from " + directive + " with redirect from allowed to disallowed", directive + " {other_host}" + additional, template, {:redirect => true}.merge(options))
-        self.testcase(true,  "Load " + type + " from " + directive + " with redirect from allowed to allowed", directive + " {origin1} {origin2}" + additional, template, {:redirect => true}.merge(options))
+    def self.create_testcases(type, directive, template, additional, options = {}, version = 1.0)
+        self.create_testcase_list(type, directive, "'self'", template, additional, options, version)
+        self.create_testcase_list(type, directive, "{host}", template, additional, options, version)
+    end
+
+    def self.create_testcase_list(type, directive, value, template, additional, options = {}, version = 1.0)
+        self.create_testcase_list_standard(type, directive, value, template, additional, options, version)
+        self.testcase(false, "Load " + type + " from " + directive + " with redirect from allowed to disallowed", directive + " {other_host}" + additional, template, {:redirect => true}.merge(options), version)
+        self.testcase(true,  "Load " + type + " from " + directive + " with redirect from allowed to allowed", directive + " {origin1} {origin2}" + additional, template, {:redirect => true}.merge(options), version)
 
     end
-    def self.create_testcase_list_standard(type, directive, value, template, additional, options = {})
-        self.testcase(true,  "Load " + type + " from default-src " + value,           "default-src " + value + additional,                                template, options)
-        self.testcase(false, "Load " + type + " from default-src 'none'",             "default-src 'none'" + additional,                                  template, options)
-        self.testcase(true,  "Load " + type + " from " + directive + " " + value,     "default-src 'none'; " + directive + " " + value + additional,      template, options)
-        self.testcase(false, "Load " + type + " from " + directive + " 'none'",       "default-src " + value + "; " + directive + " 'none'" + additional, template, options)
+    def self.create_testcase_list_standard(type, directive, value, template, additional, options = {}, version = 1.0)
+        self.testcase(true,  "Load " + type + " from default-src " + value,           "default-src " + value + additional,                                template, options, version)
+        self.testcase(false, "Load " + type + " from default-src 'none'",             "default-src 'none'" + additional,                                  template, options, version)
+        self.testcase(true,  "Load " + type + " from " + directive + " " + value,     "default-src 'none'; " + directive + " " + value + additional,      template, options, version)
+        self.testcase(false, "Load " + type + " from " + directive + " 'none'",       "default-src " + value + "; " + directive + " 'none'" + additional, template, options, version)
     end
 end
