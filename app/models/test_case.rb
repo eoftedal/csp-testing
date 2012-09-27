@@ -1,6 +1,6 @@
 class TestCase
 
-    attr_accessor :id, :expect, :title, :header, :template, :options, :version
+    attr_accessor :id, :expect, :title, :header, :template, :options, :version, :load_uri
 
     @@testcases = {}
     @@testcase_id = 0
@@ -13,6 +13,8 @@ class TestCase
         @template = template
         @options = options
         @version = version
+        @load_uri = "/test/" + (options[:load_part] || "load") + "/" + id.to_s + "?" + (options[:query] || "")
+
     end
 
     def uri (request)
@@ -119,6 +121,14 @@ class TestCase
         self.testcase(false, "Script-nonce invalid", "script-nonce nonce nonce; script-src 'unsafe-inline' ", "script_nonce.erb", {:nonce_attribute => "nonce=\"nonce nonce\""},       1.1)
         self.testcase(false, "Script-nonce invalid in header and missing on tag",  "script-nonce nonce nonce; script-src 'unsafe-inline' ", "script_nonce.erb", {:nonce_attribute => ""},       1.1)
         self.testcase(false, "Script-nonce invalid and javascript in event handler",    "script-nonce nonce nonce; script-src 'unsafe-inline' ",  "script_nonce_eventhandler.erb", {},  1.1)
+
+        self.testcase(true,  "Plugin-types embed allowed",    "default-src 'self'; plugin-types application/x-shockwave-flash", "object.erb", {:tag => "embed", :attr => "src", :extra => " type=\"application/x-shockwave-flash\""}, 1.1)
+        self.testcase(false, "Plugin-types embed disallowed", "default-src 'self'; plugin-types application/x-shockwave-flash", "object.erb", {:tag => "embed", :attr => "src", :extra => " type=\"application/pdf\""}, 1.1)
+        self.testcase(true,  "Plugin-types object allowed",    "default-src 'self'; plugin-types application/x-shockwave-flash", "object.erb", {:tag => "object", :attr => "data", :extra => " type=\"application/x-shockwave-flash\""}, 1.1)
+        self.testcase(false, "Plugin-types object disallowed", "default-src 'self'; plugin-types application/x-shockwave-flash", "object.erb", {:tag => "object", :attr => "data", :extra => " type=\"application/pdf\""}, 1.1)
+        self.testcase(true,   "Plugin-types bare - allowed",    "default-src 'self'; script-src 'unsafe-eval'; plugin-types application/x-shockwave-flash", "",   {:load_part => "flash", :query => "pass=true"})        
+        self.testcase(false,  "Plugin-types bare - disallowed", "default-src 'self'; script-src 'unsafe-eval'; plugin-types application/x-shockwave-flash", "", {:load_part => "flash", :query => "pass=false"})        
+
 
     end
 

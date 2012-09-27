@@ -11,6 +11,8 @@ Csptesting::Application.routes.draw do
 
   match "test/fail/:id" => "test#fail"
 
+  match "test/flash/:id" => "test#flash"
+
   match "redirect/pass/:id" => "redirect#pass"
 
   match "redirect/fail/:id" => "redirect#fail"

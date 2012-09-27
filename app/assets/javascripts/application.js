@@ -34,7 +34,7 @@ $(function() {
             var tr = $("<tr>").attr("id", "id-" + testcase.id).appendTo($(".results")).addClass("testcase");
             $("<td>").text(testcase.id).appendTo(tr);
             $("<td>").text(testcase.title).appendTo(tr);
-            $("<iframe>").attr("src", "/test/load/" + testcase.id + "?_=" + (new Date()).getTime()).appendTo($(".iframes")).hide();
+            $("<iframe>").attr("src", testcase.load_uri + "&_=" + (new Date()).getTime()).appendTo($(".iframes")).hide();
             setTimeout(function() { runTest(++id) }, 100);
             if (id > 0 && (id % 10 == 0)) loadResults(true);
         } else {
