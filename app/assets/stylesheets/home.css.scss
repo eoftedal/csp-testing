@@ -87,12 +87,15 @@
 
   li span {
     position: absolute;
-    left: 85px;
+    left: 145px;
   }
 
   li b {
     xleft: 0px;
-    xposition: absolute;
+    position: absolute;
+    text-align: right;
+    width: 75px;
+    left: 40px;
   }
 
   li a.icon {
@@ -102,7 +105,7 @@
     background-position: 20px;
     width: 20px;
     height: 20px;
-    left: 60px;
+    left: 120px;
     margin-right: 5px;
     position: absolute;
   }

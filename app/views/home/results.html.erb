@@ -1,5 +1,7 @@
 <ul class="browserResults">
 <% @results.each do |result| %>
-    <li data-useragent="<%= result.useragent %>" data-created-at="<%= result.updated_at %>" data-version="<%= result.version %>"><a class="icon"></a><b><%= result.success %>/<%= result.total %></b></li>
+    <li data-useragent="<%= result.useragent %>" data-created-at="<%= result.updated_at %>" data-version="<%= result.version %>"><a class="icon"></a>
+    	CSP <%= result.version || 1.0 %> &nbsp;<b> <%= result.success %>/<%= result.total %></b>
+    </li>
 <% end %>
 </ul>

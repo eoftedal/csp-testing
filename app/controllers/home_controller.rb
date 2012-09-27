@@ -29,7 +29,7 @@ class HomeController < ApplicationController
 
     def results
         # @results = Result.find(:all, :order => "id desc", :limit => 100)
-        @results = Result.where("total IS NOT NULL").order("id desc").limit(100);
+        @results = Result.where("total IS NOT NULL").order("id desc").limit(100)
     end
 
     def about
