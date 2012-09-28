@@ -61,7 +61,7 @@ class TestCase
     end
 
     def self.load() 
-        self.load_1_0()
+        #self.load_1_0()
         self.load_1_1_draft()
     end
     def self.load_1_0()
@@ -126,8 +126,9 @@ class TestCase
         self.testcase(false, "Plugin-types embed disallowed", "default-src 'self'; plugin-types application/x-shockwave-flash", "object.erb", {:tag => "embed", :attr => "src", :extra => " type=\"application/pdf\""}, 1.1)
         self.testcase(true,  "Plugin-types object allowed",    "default-src 'self'; plugin-types application/x-shockwave-flash", "object.erb", {:tag => "object", :attr => "data", :extra => " type=\"application/x-shockwave-flash\""}, 1.1)
         self.testcase(false, "Plugin-types object disallowed", "default-src 'self'; plugin-types application/x-shockwave-flash", "object.erb", {:tag => "object", :attr => "data", :extra => " type=\"application/pdf\""}, 1.1)
-        self.testcase(true,   "Plugin-types bare - allowed",    "default-src 'self'; script-src 'unsafe-eval'; plugin-types application/x-shockwave-flash", "",   {:load_part => "flash", :query => "pass=true"}, 1.1)        
-        self.testcase(false,  "Plugin-types bare - disallowed", "default-src 'self'; script-src 'unsafe-eval'; plugin-types application/x-shockwave-flash", "", {:load_part => "flash", :query => "pass=false"}, 1.1)        
+        self.testcase(true,   "Plugin-types bare - not set",    "default-src 'self'", "",   {:load_part => "flash", :query => "pass=true"}, 1.1)        
+        self.testcase(true,   "Plugin-types bare - allowed",    "default-src 'self'; plugin-types application/x-shockwave-flash", "",   {:load_part => "flash", :query => "pass=true"}, 1.1)        
+        self.testcase(false,  "Plugin-types bare - disallowed", "default-src 'self'; plugin-types application/x-shockwave-flash", "", {:load_part => "flash", :query => "pass=false"}, 1.1)        
 
 
     end
