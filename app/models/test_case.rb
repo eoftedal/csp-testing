@@ -98,6 +98,8 @@ class TestCase
         self.create_testcases("embed",      "object-src", "object.erb",       "", {:tag => "embed", :attr => "src", :extra => " type=\"application/x-shockwave-flash\""})
         # not reliable self.create_testcases("applet",     "object-src", "object.erb",       "", {:tag => "applet", :attr => "codebase", :extra => " code=\"HelloWorld.class\""})
         self.create_testcases("frame",      "frame-src",  "iframe.erb",       "")
+        self.testcase(true,  "Iframe with data-uri allowed",    "default-src 'self'; frame-src data: ",  "iframe_data.erb", { :include_host => true })
+        self.testcase(false, "Iframe with data-uri disallowed", "default-src 'self'; frame-src 'self'",  "iframe_data.erb", { :include_host => true })
         self.create_testcases("font",       "font-src",   "font.erb",         ";style-src 'unsafe-inline")
         self.create_testcases("audio",      "media-src",  "media.erb",        "", {:tag => "audio"})
         self.create_testcases("video",      "media-src",  "media.erb",        "", {:tag => "video"})

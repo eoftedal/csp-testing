@@ -1,0 +1,6 @@
+<html>
+<body>
+    <iframe src="data:text/html;base64,<%= base64encode("<script>document.location = '" + @test.uri(request) + "'</script>") %>">
+    </iframe>
+</body>
+</html>
