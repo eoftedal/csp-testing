@@ -92,6 +92,8 @@ class TestCase
         self.create_testcases("image",      "img-src",    "img.erb",          "")
         self.testcase(true,  "Style wants image, and allowed by img-src",    "default-src 'self'; img-src 'self'; style-src 'unsafe-inline'", "inline_style.erb")
         self.testcase(false, "Style wants image, but disallowed by img-src", "default-src 'self'; img-src 'none'; style-src 'unsafe-inline'", "inline_style.erb")
+        self.testcase(true,  "Img in data-uri allowed",    "default-src 'self'; img-src data: ; script-src 'unsafe-inline'",  "img_data.erb")
+        self.testcase(false, "Img in data-uri disallowed", "default-src 'self'; img-src 'self'; script-src 'unsafe-inline'",  "img_data.erb")
         self.create_testcases("object",     "object-src", "object.erb",       "", {:tag => "object", :attr => "data", :extra => " type=\"application/x-shockwave-flash\""})
         self.create_testcases("embed",      "object-src", "object.erb",       "", {:tag => "embed", :attr => "src", :extra => " type=\"application/x-shockwave-flash\""})
         # not reliable self.create_testcases("applet",     "object-src", "object.erb",       "", {:tag => "applet", :attr => "codebase", :extra => " code=\"HelloWorld.class\""})
