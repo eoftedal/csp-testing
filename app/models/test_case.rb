@@ -61,7 +61,7 @@ class TestCase
     end
 
     def self.load() 
-        #self.load_1_0()
+        self.load_1_0()
         self.load_1_1_draft()
     end
     def self.load_1_0()
