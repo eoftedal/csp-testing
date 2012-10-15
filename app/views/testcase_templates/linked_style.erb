@@ -1,5 +1,6 @@
 <html>
 <head>
+	<%= raw replace_host(@test.options[:head_content]) %>
     <link rel="stylesheet" type="text/css" href="<%= @test.uri(request) %>" />
 </head>
 <body>

@@ -1,5 +1,6 @@
 <html>
 <head>
+	<%= raw replace_host(@test.options[:head_content]) %>
 </head>
 <body>
     <<%= @test.options[:tag] %> <%= @test.options[:attr] %>="<%= @test.uri(request) %>"<%= raw @test.options[:extra] %>>
