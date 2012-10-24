@@ -116,6 +116,25 @@ class TestCase
         self.create_testcase_list_standard("EventSource", "connect-src", "'self'", "connect_eventsource.erb",    ";script-src 'self' 'unsafe-inline'")
         self.create_testcase_list_standard("EventSource", "connect-src", "{host}", "connect_eventsource.erb",    ";script-src 'self' 'unsafe-inline'")
         self.create_testcase_list_standard("WebSockets",  "connect-src", "ws://{host}" , "connect_websockets.erb",     ";script-src 'self' 'unsafe-inline'", {:protocol => "ws", :include_host => true})
+
+        self.testcase(true,  "SVG - scripting", "script-src 'unsafe-inline'", "svg_script.erb", {})
+        self.testcase(false, "SVG - scripting", "script-src 'self'",          "svg_script.erb", {})
+        self.testcase(true,  "SVG - scripting event handler", "script-src 'unsafe-inline'", "svg_script_attr.erb", {})
+        self.testcase(false, "SVG - scripting event handler", "script-src 'self'",          "svg_script_attr.erb", {})
+        self.testcase(true,  "SVG - scripting foreign object", "script-src 'unsafe-inline'", "svg_script_foreign_object.erb", {})
+        self.testcase(false, "SVG - scripting foreign object", "script-src 'self'",          "svg_script_foreign_object.erb", {})
+
+        self.testcase(true,  "SVG - object in foreign object", "default-src 'self'; style-src 'unsafe-inline'", "svg_foreign_object.erb", {})
+        self.testcase(false, "SVG - object in foreign object", "default-src 'self'; style-src 'unsafe-inline'; object-src 'none'", "svg_foreign_object.erb", {})
+
+        self.testcase(true,  "SVG - img in foreign object", "default-src 'self'; style-src 'unsafe-inline'", "svg_img.erb", {})
+        self.testcase(false, "SVG - img in foreign object", "default-src 'self'; style-src 'unsafe-inline'; img-src 'none'", "svg_img.erb", {})
+
+        self.testcase(true,  "SVG - video in foreign object", "default-src 'self'; style-src 'unsafe-inline'", "svg_media.erb", {:tag => "video"})
+        self.testcase(false, "SVG - video in foreign object", "default-src 'self'; style-src 'unsafe-inline'; media-src 'none'", "svg_media.erb", {:tag => "video"})
+        self.testcase(true,  "SVG - audio in foreign object", "default-src 'self'; style-src 'unsafe-inline'", "svg_media.erb", {:tag => "audio"})
+        self.testcase(false, "SVG - audio in foreign object", "default-src 'self'; style-src 'unsafe-inline'; media-src 'none'", "svg_media.erb", {:tag => "audio"})
+
     end
 
     def self.load_1_1_draft() 
