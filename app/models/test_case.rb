@@ -135,6 +135,12 @@ class TestCase
         self.testcase(true,  "SVG - audio in foreign object", "default-src 'self'; style-src 'unsafe-inline'", "svg_media.erb", {:tag => "audio"})
         self.testcase(false, "SVG - audio in foreign object", "default-src 'self'; style-src 'unsafe-inline'; media-src 'none'", "svg_media.erb", {:tag => "audio"})
 
+        self.testcase(false, "Sandbox", "sandbox", "sandbox_inner.erb", {:allow_same_origin => true, :allow_scripts => true, :container_template => "sandbox_container.erb", :load_part => "container"}, 1.0)
+        self.testcase(true,  "Sandbox", "sandbox allow-scripts", "sandbox_inner.erb", {:allow_same_origin => false, :allow_scripts => true, :container_template => "sandbox_container.erb", :load_part => "container"}, 1.0)
+        self.testcase(false, "Sandbox", "sandbox allow-scripts", "sandbox_inner.erb", {:allow_same_origin => true, :allow_scripts => false, :container_template => "sandbox_container.erb", :load_part => "container"}, 1.0)
+        self.testcase(true,  "Sandbox", "sandbox allow-same-origin allow-scripts", "sandbox_inner.erb", {:allow_same_origin => true, :allow_scripts => false, :container_template => "sandbox_container.erb", :load_part => "container"}, 1.0)
+
+
     end
 
     def self.load_1_1_draft() 

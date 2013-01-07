@@ -1,0 +1,14 @@
+<html>
+<head>
+	<%= raw replace_host(@test.options[:head_content]) %>
+
+	<script>
+		function sandbox_run() {
+			document.location = "<%= @test.uri(request) %>";
+		}
+	</script>
+</head>
+<body>
+    <iframe src="/test/load/<%= @test.id %>"></iframe>
+</body>
+</html>

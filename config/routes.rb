@@ -13,6 +13,9 @@ Csptesting::Application.routes.draw do
 
   match "test/flash/:id" => "test#flash"
 
+  match "test/container/:id" => "test#load_container"
+
+
   match "redirect/pass/:id" => "redirect#pass"
 
   match "redirect/fail/:id" => "redirect#fail"

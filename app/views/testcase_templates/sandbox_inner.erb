@@ -1,0 +1,21 @@
+<html>
+<head>
+</head>
+<body>
+<% if (@test.options[:allow_forms])  %>
+	
+<% end %>
+<% if (@test.options[:allow_same_origin])  %>
+	<script>
+    	window.parent.sandbox_run();
+	</script> 
+<% end %>
+<% if (@test.options[:allow_scripts])  %>
+	<script>
+	    document.location = '<%= @test.uri(request) %>';
+	</script>
+<% end %>
+
+</body>
+</html>
+

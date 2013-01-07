@@ -40,6 +40,18 @@ class TestController < ApplicationController
     end
   end
 
+
+  def load_container
+    @test = TestCase.get_testcase(params[:id])
+    if (@test)
+        render :file => "app/views/testcase_templates/" + @test.options[:container_template], :layout => false
+    else 
+        head 404
+    end
+  end
+
+
+
   def results
     @results = results_table
     save_results
