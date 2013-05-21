@@ -8,7 +8,7 @@
 var testcases = <%= raw @testcase_json %>
 </script>
 <br>
-<p><a id="runtests" class="btn btn-primary btn-large">Run tests</a></p>
+<p><a id="runtests" class="btn btn-primary btn-large">Run tests</a> <a id="listtests" class="btn btn-large">List tests</a></p>
 
 <p id="runner" class="running" style="display:none">Running...</p>
 
@@ -20,5 +20,5 @@ var testcases = <%= raw @testcase_json %>
 </table>
 
 <div class="iframes" style="display: none">
-<iframe src="http://<%= @other_host %>/home/establish?session_id=<%= @session_id %>"></iframe>
+<iframe src="//<%= @other_host %>/home/establish?session_id=<%= @session_id %>"></iframe>
 </div>

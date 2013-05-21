@@ -28,6 +28,34 @@ $(function() {
         setTimeout(function() { runTest(0) }, 100);
     });
 
+    $("#listtests").click(function(evt) {
+        evt.preventDefault();
+        evt.stopPropagation();
+        $(".iframes").text("");
+        $(".results").show();
+        $(".testcase").remove();
+        $("#runner").hide();
+        for(var i in testcases) {
+            (function() {
+            var testcase = testcases[i];
+            var tr = $("<tr>").attr("id", "id-" + testcase.id).appendTo($(".results")).addClass("testcase");
+            $("<td>").text(testcase.id).appendTo(tr);
+            $("<td>").text(testcase.title).appendTo(tr);
+            $("<td>").appendTo(tr).append($("<button>").addClass("btn btn-small").text("Run").click(function(){
+                $("<iframe>").attr("src", testcase.load_uri + "&_=" + (new Date()).getTime()).appendTo($(".iframes")).hide();
+                setTimeout(function() { loadResults(true, false) }, 1000);
+                setTimeout(function() { loadResults(true, true) }, 5000);
+                setTimeout(function() { loadResults(false, true) }, 15000);
+            }));                
+            $("<td>").appendTo(tr).append($("<button>").addClass("btn btn-small").text("Open").click(function() {
+                document.location = testcase.load_uri + "&_=" + (new Date()).getTime();
+            }));
+            })();
+        }
+    });
+
+
+
     function runTest(id) {
         var testcase = testcases[id];
         if (testcase != null) {
@@ -43,6 +71,8 @@ $(function() {
             setTimeout(function() { loadResults(false, true) }, 15000);
         }
     }
+
+
     function loadResults(nofail, finishResults) {
         $.getJSON("/test/results?_=" + (new Date()).getTime()).success(function(results) {
             for (var i in results) {
