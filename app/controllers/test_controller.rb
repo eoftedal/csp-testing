@@ -2,12 +2,26 @@ class TestController < ApplicationController
 
   def pass
     set_result(params[:id], true)
-    head 200
+    response.headers["Access-Control-Allow-Origin"] = "http://" + swap
+    response.headers["Access-Control-Allow-Credentials"] = "true"
+    response.headers["X-Access-Control-Allow-Origin"] = "http://" + swap
+    response.headers["X-Access-Control-Allow-Credentials"] = "true"
+   head 200
   end
 
   def fail
     set_result(params[:id], false)
+    response.headers["Access-Control-Allow-Origin"] = "http://" + swap
+    response.headers["Access-Control-Allow-Credentials"] = "true"
+    response.headers["X-Access-Control-Allow-Origin"] = "http://" + swap
+    response.headers["X-Access-Control-Allow-Credentials"] = "true"
     head 403
+  end
+
+  def swap
+    host = request.host == APP_CONFIG["origin1"] ? APP_CONFIG["origin2"] : APP_CONFIG["origin1"]
+    port = request.port == 80 ? "" : (":" + request.port.to_s)
+    host + port
   end
 
   def flash

@@ -1,11 +1,15 @@
 class RedirectController < ApplicationController
   def pass
+    response.headers["Access-Control-Allow-Origin"] = "http://" + swap
+    response.headers["Access-Control-Allow-Credentials"] = "true"
     response.headers["X-Access-Control-Allow-Origin"] = "http://" + swap
     response.headers["X-Access-Control-Allow-Credentials"] = "true"
     redirect_to url("pass")
   end
 
   def fail
+    response.headers["Access-Control-Allow-Origin"] = "http://" + swap
+    response.headers["Access-Control-Allow-Credentials"] = "true"
     response.headers["X-Access-Control-Allow-Origin"] = "http://" + swap
     response.headers["X-Access-Control-Allow-Credentials"] = "true"
     redirect_to url("fail")
