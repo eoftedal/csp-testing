@@ -42,7 +42,8 @@ $(function() {
             $("<td>").text(testcase.id).appendTo(tr);
             $("<td>").text(testcase.title).appendTo(tr);
             $("<td>").appendTo(tr).append($("<button>").addClass("btn btn-small").text("Run").click(function(){
-                $("<iframe>").attr("src", testcase.load_uri + "&_=" + (new Date()).getTime()).appendTo($(".iframes")).hide();
+                $("<iframe>").attr("src", testcase.load_uri + "&_=" + (new Date()).getTime()).appendTo($(".iframes"))
+                    .css({"visibility":"hidden"});
                 setTimeout(function() { loadResults(true, false) }, 1000);
                 setTimeout(function() { loadResults(true, true) }, 5000);
                 setTimeout(function() { loadResults(false, true) }, 15000);
@@ -62,7 +63,8 @@ $(function() {
             var tr = $("<tr>").attr("id", "id-" + testcase.id).appendTo($(".results")).addClass("testcase");
             $("<td>").text(testcase.id).appendTo(tr);
             $("<td>").text(testcase.title).appendTo(tr);
-            $("<iframe>").attr("src", testcase.load_uri + "&_=" + (new Date()).getTime()).appendTo($(".iframes")).hide();
+            $("<iframe>").attr("src", testcase.load_uri + "&_=" + (new Date()).getTime()).appendTo($(".iframes"))
+                .css({"visibility":"hidden"});
             setTimeout(function() { runTest(++id) }, 100);
             if (id > 0 && (id % 10 == 0)) loadResults(true);
         } else {
