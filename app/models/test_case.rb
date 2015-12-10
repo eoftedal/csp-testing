@@ -174,6 +174,10 @@ class TestCase
         self.testcase(true,   "Plugin-types bare - allowed",    "default-src 'self'; plugin-types application/x-shockwave-flash", "",   {:load_part => "flash", :query => "pass=true"}, 1.1)        
         self.testcase(false,  "Plugin-types bare - disallowed", "default-src 'self'; plugin-types application/x-shockwave-flash", "", {:load_part => "flash", :query => "pass=false"}, 1.1)        
 
+        self.create_testcases("child",      "child-src",  "iframe.erb",       "")
+        self.testcase(false, "Iframe set to 'self' + base",   "child-src 'self'", "iframe.erb", { :head_content => '<base href="{other_host}" />', :include_other_host => true  })
+        self.testcase(true,  "Iframe with data-uri allowed",    "default-src 'self'; child-src data: ",  "iframe_data.erb", { :include_host => true })
+        self.testcase(false, "Iframe with data-uri disallowed", "default-src 'self'; child-src 'self'",  "iframe_data.erb", { :include_host => true })
 
     end
 
