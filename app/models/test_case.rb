@@ -152,19 +152,15 @@ class TestCase
         self.testcase(false, "Form-action with redirect from allowed to disallowed", "form-action {other_host}; script-src 'unsafe-inline'",     "form_action.erb", {:redirect => true}, 1.1)
         self.testcase(true,  "Form-action with redirect from allowed to allowed", "form-action {origin1} {origin2}; script-src 'unsafe-inline'", "form_action.erb", {:redirect => true}, 1.1)
 
-        self.testcase(true,  "Script-nonce correct",    "script-nonce correctnonce; script-src 'unsafe-inline' ",    "script_nonce.erb", {:nonce_attribute => "nonce=\"correctnonce\""},     1.1)
+        self.testcase(true,  "Script-nonce correct",    "script-src 'nonce-correctnonce' ",    "script_nonce.erb", {:nonce_attribute => "nonce=\"correctnonce\""},     1.1)
 
-        self.testcase(false, "Script-nonce wrong",      "script-nonce somenonce; script-src 'unsafe-inline' ",       "script_nonce.erb", {:nonce_attribute => "nonce=\"wrongnonce\""},       1.1)
-        self.testcase(false, "Script-nonce missing",    "script-nonce somenonce; script-src 'unsafe-inline' ",       "script_nonce.erb", {:nonce_attribute => ""},       1.1)
-        self.testcase(false, "Script-nonce set and javascript in event handler",    "script-nonce somenonce; script-src 'unsafe-inline' ",  "script_nonce_eventhandler.erb", {},  1.1)
+        self.testcase(false, "Script-nonce wrong",      "; script-src 'nonce-somenonce' ",       "script_nonce.erb", {:nonce_attribute => "nonce=\"wrongnonce\""},       1.1)
+        self.testcase(false, "Script-nonce missing",    "; script-src 'nonce-somenonce' ",       "script_nonce.erb", {:nonce_attribute => ""},       1.1)
+        self.testcase(false, "Script-nonce set and javascript in event handler",    "; script-src 'nonce-somenonce' ",  "script_nonce_eventhandler.erb", {},  1.1)
 
-        self.testcase(false, "Script-nonce empty in header",                   "script-nonce ; script-src 'unsafe-inline' ",      "script_nonce.erb", {:nonce_attribute => ""},       1.1)
-        self.testcase(false, "Script-nonce empty in header but not on tag",    "script-nonce ; script-src 'unsafe-inline' ",      "script_nonce.erb", {:nonce_attribute => "nonce=\"somenonce\""},       1.1)
-        self.testcase(false, "Script-nonce set and javascript in event handler",    "script-nonce ; script-src 'unsafe-inline' ", "script_nonce_eventhandler.erb", {},  1.1)
-
-        self.testcase(false, "Script-nonce invalid", "script-nonce nonce nonce; script-src 'unsafe-inline' ", "script_nonce.erb", {:nonce_attribute => "nonce=\"nonce nonce\""},       1.1)
-        self.testcase(false, "Script-nonce invalid in header and missing on tag",  "script-nonce nonce nonce; script-src 'unsafe-inline' ", "script_nonce.erb", {:nonce_attribute => ""},       1.1)
-        self.testcase(false, "Script-nonce invalid and javascript in event handler",    "script-nonce nonce nonce; script-src 'unsafe-inline' ",  "script_nonce_eventhandler.erb", {},  1.1)
+        self.testcase(false, "Script-nonce empty in header",                   "script-src 'nonce-' ",      "script_nonce.erb", {:nonce_attribute => ""},       1.1)
+        self.testcase(false, "Script-nonce empty in header but not on tag",    "script-src 'nonce-' ",      "script_nonce.erb", {:nonce_attribute => "nonce=\"somenonce\""},       1.1)
+        self.testcase(false, "Script-nonce set and javascript in event handler",    "script-src 'nonce-' ", "script_nonce_eventhandler.erb", {},  1.1)
 
         self.testcase(true,  "Plugin-types embed allowed",    "default-src 'self'; plugin-types application/x-shockwave-flash", "object.erb", {:tag => "embed", :attr => "src", :extra => " type=\"application/x-shockwave-flash\""}, 1.1)
         self.testcase(false, "Plugin-types embed disallowed", "default-src 'self'; plugin-types application/x-shockwave-flash", "object.erb", {:tag => "embed", :attr => "src", :extra => " type=\"application/pdf\""}, 1.1)
