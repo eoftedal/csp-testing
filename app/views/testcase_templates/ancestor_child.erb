@@ -1,0 +1,8 @@
+<html>
+<head>
+	<%= raw replace_host(@test.options[:head_content]) %>
+</head>
+<body>
+    <img src="<%= @test.uri(request) %>">
+</body>
+</html>

@@ -175,6 +175,14 @@ class TestCase
         self.testcase(true,  "Iframe with data-uri allowed",    "default-src 'self'; child-src data: ",  "iframe_data.erb", { :include_host => true })
         self.testcase(false, "Iframe with data-uri disallowed", "default-src 'self'; child-src 'self'",  "iframe_data.erb", { :include_host => true })
 
+        self.testcase(true, "Iframe with ancestor default-src self", "default-src 'self';", "ancestor_child.erb", {}, 1.1)
+        self.testcase(true, "Iframe with ancestor default-src none, frame-ancestors self", "default-src 'none'; img-src 'self'; frame-ancestors 'self'", "ancestor_child.erb", {}, 1.1)
+        self.testcase(true, "Iframe with ancestor default-src none, frame-ancestors missing (= '*')", "default-src 'none'; img-src 'self'; frame-ancestors 'self'", "ancestor_child.erb", {}, 1.1)
+        self.testcase(true, "Iframe with ancestor default-src none, frame-ancestors *", "default-src 'none'; img-src 'self'; frame-ancestors *", "ancestor_child.erb", {}, 1.1)
+        self.testcase(false, "Iframe with ancestor, frame-ancestors none", "default-src 'none'; img-src 'self'; frame-ancestors 'none'", "ancestor_child.erb", {}, 1.1)
+        self.testcase(false, "Iframe with ancestor, frame-ancestor to {other_host}", "default-src 'none'; img-src 'self'; frame-ancestors {other_host}", "ancestor_child.erb", {}, 1.1)
+
+
     end
 
     def self.create_testcases(type, directive, template, additional, options = {}, version = 1.0)
