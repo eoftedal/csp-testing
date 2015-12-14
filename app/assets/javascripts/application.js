@@ -99,7 +99,7 @@ $(function() {
         if (ua.indexOf("Edge") >= 0) {
             li.addClass("iee");
             version = /Edge\/([^ ]+)/.exec(ua)[1];
-        if (ua.indexOf("Chrome") >= 0) {
+        } else if (ua.indexOf("Chrome") >= 0) {
             li.addClass("chrome");
             version = /Chrome\/([^ ]+)/.exec(ua)[1];
         } else if (ua.indexOf("Firefox") >= 0) {
