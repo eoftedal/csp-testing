@@ -96,6 +96,9 @@ $(function() {
         var li = $(elm);
         var ua = li.attr("data-useragent");
         var version = "";
+        if (ua.indexOf("Edge") >= 0) {
+            li.addClass("iee");
+            version = /Edge\/([^ ]+)/.exec(ua)[1];
         if (ua.indexOf("Chrome") >= 0) {
             li.addClass("chrome");
             version = /Chrome\/([^ ]+)/.exec(ua)[1];
@@ -108,6 +111,9 @@ $(function() {
         } else if (ua.indexOf("MSIE") >= 0) {
             li.addClass("ie");
             version = /MSIE ([^;]+)/.exec(ua)[1];
+        } else if (ua.indexOf("Trident") >= 0) {
+            li.addClass("ie");
+            version = /rv:([^)]+)/.exec(ua)[1];
         } else if (ua.indexOf("Opera") >= 0) {
             li.addClass("opera");
             version = /Opera\/([^ ]+)/.exec(ua)[1];
