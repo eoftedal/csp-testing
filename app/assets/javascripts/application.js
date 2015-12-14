@@ -97,7 +97,7 @@ $(function() {
         var ua = li.attr("data-useragent");
         var version = "";
         if (ua.indexOf("Edge") >= 0) {
-            li.addClass("iee");
+            li.addClass("ie");
             version = /Edge\/([^ ]+)/.exec(ua)[1];
         } else if (ua.indexOf("Chrome") >= 0) {
             li.addClass("chrome");
