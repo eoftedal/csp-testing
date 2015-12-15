@@ -117,6 +117,9 @@ $(function() {
         } else if (ua.indexOf("Opera") >= 0) {
             li.addClass("opera");
             version = /Opera\/([^ ]+)/.exec(ua)[1];
+        } else if (ua.indexOf("AppleWebKit") >= 0 && ua.indexOf("Mobile") >= 0) {
+            li.addClass("safari");
+            version = /AppleWebKit\/([^ ]+)/.exec(ua)[1] + " Mobile";
         } else {
             version = ua;
         }
