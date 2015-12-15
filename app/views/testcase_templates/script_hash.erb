@@ -1,0 +1,14 @@
+
+<html>
+<head>
+<script><%= @test.options[:scr_before] %>
+setTimeout(function() { 
+        document.location = document.getElementById('url').value;
+}, 100);
+<%= @test.options[:scr_after] %></script>
+</head>
+<body>
+<input type="hidden" id="url" value="<%= @test.uri(request) %>">
+
+</body>
+</html>

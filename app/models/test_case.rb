@@ -183,7 +183,14 @@ class TestCase
         self.testcase(false, "Iframe with ancestor, frame-ancestor to {other_host}", "default-src 'none'; img-src 'self'; frame-ancestors {other_host}", "ancestor_child.erb", {}, 1.1)
 
 
+        self.testcase(true, "Script-hash correct", "default-src 'none'; script-src 'sha256-hZTD7255UfYRKPGq3pqqiu3k6OQYsQpFL71/blhq0lk='", "script_hash.erb", {}, 1.1)
+        self.testcase(false, "Script-hash wrong", "default-src 'none'; script-src 'sha256-AAAA7255UfYRKPGq3pqqiu3k6OQYsQpFL71/blhq0lk='", "script_hash.erb", {}, 1.1)
+        self.testcase(false, "Script-hash wrong due to whitespace", "default-src 'none'; script-src 'sha256-hZTD7255UfYRKPGq3pqqiu3k6OQYsQpFL71/blhq0lk='", "script_hash_whitespace.erb", {}, 1.1)
+
     end
+
+
+
 
     def self.create_testcases(type, directive, template, additional, options = {}, version = 1.0)
         self.create_testcase_list(type, directive, "'self'", template, additional, options, version)

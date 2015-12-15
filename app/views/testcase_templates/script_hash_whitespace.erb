@@ -1,0 +1,50 @@
+
+<html>
+<head>
+<!-- missing newline before -->
+<script>setTimeout(function() { 
+        document.location = document.getElementById('url').value;
+}, 100);
+</script>
+<!-- missing newline after -->
+<script>
+setTimeout(function() { 
+        document.location = document.getElementById('url').value;
+}, 100);</script>
+<!-- extra newline before -->
+<script>
+
+setTimeout(function() { 
+        document.location = document.getElementById('url').value;
+}, 100);
+</script>
+<!-- extra newline after -->
+<script>
+setTimeout(function() { 
+        document.location = document.getElementById('url').value;
+}, 100);
+
+</script>
+
+
+<!-- extra space before -->
+<script> 
+setTimeout(function() { 
+        document.location = document.getElementById('url').value;
+}, 100);
+</script>
+<!-- extra space after -->
+<script>
+setTimeout(function() { 
+        document.location = document.getElementById('url').value;
+}, 100);
+ </script>
+
+
+
+</head>
+<body>
+<input type="hidden" id="url" value="<%= @test.uri(request) %>">
+
+</body>
+</html>
