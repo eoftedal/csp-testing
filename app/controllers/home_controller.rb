@@ -1,7 +1,7 @@
 class HomeController < ApplicationController
     def index
         new_results
-        session[:version] = 1.1
+        session[:version] = 2
         if (params[:disable_old_headers]) 
             session[:disable_old_headers] = params[:disable_old_headers] == "true"
         end
